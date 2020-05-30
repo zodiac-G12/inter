@@ -2,6 +2,11 @@ var formId = 0;
 var resId = 0;
 var tail = 0;
 
+function init() {
+    const oVh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--ovh', `${oVh}px`);
+}
+
 function contf(fid) {
     return `
         <a class="bfr-prompt">zodiac.github.io</a>
@@ -32,20 +37,6 @@ function submit(event) {
 
     const value = document.getElementById(`form${formId}`).value;
     a(value);
-
-    // document.getElementById(`form${formId}`).disabled = "disabled";
-    //
-    // if (result) {
-    //     document.getElementById(`result${resId}`).innerHTML = result;
-    // } else {
-    //     document.getElementById(`result${resId}`).innerHTML = "";
-    // }
-    //
-    // formId += 1;
-    // resId += 1;
-    // tail += 1;
-    //
-    // addHtml();
 }
 
 function asyncEval (str) {
@@ -65,7 +56,6 @@ function a(str){
         result = res;
 
         document.getElementById(`form${formId}`).disabled = "disabled";
-        // document.getElementById(`form${formId}`).autofocus = "false";
 
         document.getElementById(`result${resId}`).innerHTML = result;
 
@@ -76,7 +66,6 @@ function a(str){
         addHtml();
     }).catch((err) => {
         document.getElementById(`form${formId}`).disabled = "disabled";
-        // document.getElementById(`form${formId}`).autofocus = "false";
 
         document.getElementById(`result${resId}`).innerHTML = err;
 
@@ -92,4 +81,4 @@ function a(str){
 // // console.log(aa)
 //
 
-// window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('DOMContentLoaded', init);
