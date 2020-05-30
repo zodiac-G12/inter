@@ -1,6 +1,8 @@
 var formId = 0;
 var resId = 0;
 var tail = 0;
+var show = false;
+var index = null;
 
 function init() {
     const oVh = window.innerHeight * 0.01;
@@ -33,9 +35,43 @@ function addHtml() {
 }
 
 function submit(event) {
+    // 上:38
+    // 下:40
+    
+    const b = JSON.parse(localStorage.getItem('inter-log'));
+    if ([38, 40].includes(event.keyCode)) {
+        if(event.keyCode==38) {
+            show = true;
+            if (index>0&&index!=null) index -= 1;
+            if (index==null) index = b.length-1;
+            document.getElementById(`form${formId}`).value = b[index]["value"];
+        } else if (event.keyCode==40 && show) {
+            if (index==b.length-1) {
+                document.getElementById(`form${formId}`).value = "";
+                show = false;
+                index = null;
+            } else {
+                index += 1;
+                document.getElementById(`form${formId}`).value = b[index]["value"];
+            }
+        }
+        return;
+    }
     if (event.keyCode != 13) return;
 
+    show = false;
+    index = null;
+
     const value = document.getElementById(`form${formId}`).value;
+
+    if (!b) {
+        data = [{"value": `${value}`}];
+    } else {
+        b[b.length] = {"value": `${value}`};
+        data = b;
+    }
+    localStorage.setItem('inter-log', JSON.stringify(data));
+
     a(value);
 }
 
@@ -67,7 +103,7 @@ function a(str){
     }).catch((err) => {
         document.getElementById(`form${formId}`).disabled = "disabled";
 
-        document.getElementById(`result${resId}`).innerHTML = err;
+        document.getElementById(`result${resId}`).innerHTML = err=="ReferenceError: help is not defined" ? "Please read this. <a href='https://github.com/zodiac-G12/inter/blob/master/README.md'>https://github.com/zodiac-G12/inter/blob/master/README.md</a>" : err;
 
         formId += 1;
         resId += 1;
