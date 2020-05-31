@@ -4,6 +4,13 @@ var tail = 0;
 var show = false;
 var index = null;
 
+const help = "Please read this. <a href='https://github.com/zodiac-G12/inter/blob/master/README.md'>https://github.com/zodiac-G12/inter/blob/master/README.md</a>";
+const history = "history";
+
+function showHistory() {
+    return JSON.parse(localStorage.getItem('inter-log')).map((item)=>{return item.value});
+}
+
 function init() {
     const oVh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--ovh', `${oVh}px`);
@@ -36,8 +43,7 @@ function addHtml() {
 
 function submit(event) {
     // 上:38
-    // 下:40
-    
+    // 下:40    
     const b = JSON.parse(localStorage.getItem('inter-log'));
     if ([38, 40].includes(event.keyCode)) {
         if(event.keyCode==38) {
@@ -93,7 +99,7 @@ function a(str){
 
         document.getElementById(`form${formId}`).disabled = "disabled";
 
-        document.getElementById(`result${resId}`).innerHTML = result;
+        document.getElementById(`result${resId}`).innerHTML = result=="history" ? showHistory() : result;
 
         formId += 1;
         resId += 1;
@@ -103,7 +109,7 @@ function a(str){
     }).catch((err) => {
         document.getElementById(`form${formId}`).disabled = "disabled";
 
-        document.getElementById(`result${resId}`).innerHTML = err=="ReferenceError: help is not defined" ? "Please read this. <a href='https://github.com/zodiac-G12/inter/blob/master/README.md'>https://github.com/zodiac-G12/inter/blob/master/README.md</a>" : err;
+        document.getElementById(`result${resId}`).innerHTML = err;
 
         formId += 1;
         resId += 1;
